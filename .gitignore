@@ -7,13 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node modules
 node_modules
 dist
 dist-ssr
 *.local
 firebase
-.env.local
+
+# Environment files
 .env
+.env.local
+.env.*.local
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +29,4 @@ firebase
 *.njsproj
 *.sln
 *.sw?
+.vercel
