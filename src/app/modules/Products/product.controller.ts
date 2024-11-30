@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ProductServices } from '../Products/product.service';
 import productValidationSchema from '../Products/product.validation';
 
-const createProduct = async (req: Request, res: Response) => {
+const createProduct = async (req: Request, res: Response): Promise<any> => {
   try {
     const { product: productData } = req.body;
     const zodParsedData = productValidationSchema.parse(productData);
@@ -23,10 +23,10 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getAllBooks = async (req: Request, res: Response) => {
+const getAllBooks = async (req: Request, res: Response): Promise<any> => {
   try {
-    const searchTerm = req.query.searchTerm?.toString();
-    const result = await ProductServices.getAllBooksFromDB(searchTerm);
+    const query = req.query.searchTerm?.toString();
+    const result = await ProductServices.getAllBooksFromDB(query);
 
     res.status(200).json({
       success: true,
@@ -42,7 +42,7 @@ const getAllBooks = async (req: Request, res: Response) => {
   }
 };
 
-const getSingleBook = async (req: Request, res: Response) => {
+const getSingleBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const { productId } = req.params;
 
@@ -53,7 +53,6 @@ const getSingleBook = async (req: Request, res: Response) => {
       });
     }
 
-    // Fetch the product using the service
     const result = await ProductServices.getSingleBookFromDB(productId);
 
     if (!result) {
@@ -63,13 +62,13 @@ const getSingleBook = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Book retrieved successfully',
       data: result,
     });
   } catch (err: any) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong',
       error: err,
@@ -77,11 +76,14 @@ const getSingleBook = async (req: Request, res: Response) => {
   }
 };
 
-const updateBook = async (req: Request, res: Response) => {
+const updateBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const { productId } = req.params;
     const { price, quantity } = req.body;
-    const result = await ProductServices.updateBookInDB(productId, { price, quantity });
+    const result = await ProductServices.updateBookInDB(productId, {
+      price,
+      quantity,
+    });
 
     res.status(200).json({
       success: true,
@@ -97,13 +99,13 @@ const updateBook = async (req: Request, res: Response) => {
   }
 };
 
-const deleteBook = async (req: Request, res: Response) => {
+const deleteBook = async (req: Request, res: Response): Promise<any> => {
   try {
     const { productId } = req.params;
-    if(!productId){
-      res.status(500).json({
+    if (!productId) {
+      return res.status(500).json({
         success: false,
-        message:'There is no book available to delete',
+        message: 'There is no book available to delete',
       });
     }
     const result = await ProductServices.deleteBookFromDB(productId);

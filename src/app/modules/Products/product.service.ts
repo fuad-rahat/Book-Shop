@@ -15,8 +15,8 @@ class ProductServices {
   }
 
   static async getSingleBookFromDB(productId: string) {
-    const singleProduct = await ProductModel.findById(productId);
-    return singleProduct;
+    const product = await ProductModel.findById(productId);
+    return product;
   }
 
   static async updateBookInDB(productId: string, updateData: Partial<Product>) {

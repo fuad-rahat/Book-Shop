@@ -5,7 +5,7 @@ import { Order } from './order.interface';
 // Define the Order schema
 const OrderSchema = new Schema<Order>({
   email: { type: String, required: true },
-  product: { type: mongoose.Types.ObjectId, ref: 'Product', required: true }, // Ensure this is Types.ObjectId
+  product: { type: Schema.Types.ObjectId, ref: 'Product', required: true }, 
   quantity: { type: Number, required: true, min: 1 },
   totalPrice: { type: Number, required: true, min: 0 },
 }, { timestamps: true });
@@ -13,10 +13,10 @@ const OrderSchema = new Schema<Order>({
 // Static method to create an order
 OrderSchema.statics.createOrder = async function (
   email: string,
-  productId: string, // Accept productId as a string
+  productId: string,
   quantity: number
 ): Promise<Order> {
-  const productObjectId = new mongoose.Types.ObjectId(productId); // Convert productId to ObjectId
+  const productObjectId = new mongoose.Types.ObjectId(productId);
 
   const product = await ProductModel.findById(productObjectId);
   if (!product) {
@@ -31,7 +31,7 @@ OrderSchema.statics.createOrder = async function (
 
   const order = new this({
     email,
-    product: productObjectId, // This should now match the type
+    product: productObjectId,
     quantity,
     totalPrice,
   });
@@ -42,12 +42,12 @@ OrderSchema.statics.createOrder = async function (
 
   await order.save();
 
-  return order;
+  return order as Order; // Updated line
 };
 
 // Define the Order Model interface with custom methods
 interface OrderModel extends Model<Order> {
-  createOrder(email: string, productId: string, quantity: number): Promise<Order>; // Accept productId as string
+  createOrder(email: string, productId: string, quantity: number): Promise<Order>;
 }
 
 // Create and export the Order model with the extended interface

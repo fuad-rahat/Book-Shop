@@ -44,7 +44,7 @@ ProductSchema.pre('save', function (next) {
   this.inStock = this.quantity > 0;
   next();
 });
-//static methods
+//static method
 ProductSchema.pre('findOneAndUpdate', async function (next) {
   const update = this.getUpdate() as { quantity: number; inStock: boolean }; 
   if (update && update.quantity !== undefined) {
