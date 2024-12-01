@@ -12,6 +12,7 @@ app.use(cors());
 // Routes
 app.use('/api', productRoutes);
 app.use('/api', orderRoutes);
+
 app.get('/',(req:Request,res:Response)=>{
     res.send('Welcome to my book shop api')
 })
