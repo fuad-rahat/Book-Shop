@@ -44,19 +44,12 @@ Book Shop B4A2V1 is a RESTful API application built with **Express.js** and **Ty
    npm install
    ```
 
-3. **Set Up Environment Variables**
-   Create a `.env` file in the root directory and add the following:
-   ```plaintext
-   PORT=5000
-   MONGO_URI=your-mongodb-connection-string
-   ```
-
-4. **Run the Application**
+3. **Run the Application**
    ```bash
    npm run dev
    ```
 
-5. **Test the Application**
+4. **Test the Application**
    Use tools like **Postman** or **cURL** to interact with the API.
 
 ---
